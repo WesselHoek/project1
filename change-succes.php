@@ -1,14 +1,12 @@
 <?php
-//login_succes.php
+//change-succes.php
 
 session_start();
-include "database.php";
-$db = new DB('localhost', 'root', '', 'project1', 'utf8');
 
 if (isset($_SESSION["email"])) {
     echo '<h3>Login Succes, Welcome - ' . $_SESSION["email"] . '</h3>';
-    echo '<br><br><a href="logout.php">Logout</a>';
+    echo '<h3>Hier zou je normaal je wachtwoord aanpassen.</h3>';
+    echo '<br><br><a href="logout.php">Eindig deze lege sessie.</a>';
 } else {
     header("location:index.php");
 }
-

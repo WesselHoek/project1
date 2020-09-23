@@ -5,6 +5,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
     <br>
     <br>
@@ -45,7 +47,7 @@
             <label for="Username">Username</label>
             <input type="text" name="username" class="form-control" required>
             <br>
-            
+
             <label for="Wachtwoord">Wachtwoord</label>
             <input type="password" name="wachtwoord" class="form-control" required>
             <br>
@@ -53,13 +55,14 @@
             <label for="Password">Herhaal Wachtwoord</label>
             <input type="password" name="herhaal-wachtwoord" class="form-control" required>
             <br>
-            
+
 
             <input type="submit" name="Registeren" class="btn btn-info" value="Registreren">
-            <button type="button" class="btn btn-link"><a href="index.php">Login?</a></button>
-            <button type="button" class="btn btn-link"><a href="lostpsw.php">Wachtwoord vergeten?</a></button>
+            <a href="index.php" class="btn btn-link" role="button">Login?</a>
+            <a href="lostpsw.php" class="btn btn-link" role="button">Wachtwoord vergeten?</a>
         </form>
         <br>
     </div>
 </body>
+
 </html>
