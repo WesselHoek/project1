@@ -10,7 +10,7 @@ $message = "";
 $to_email = "2017024@talnet.nl";
 $subject = "Verander wachtwoord.";
 $body = "Hierbij sturen wij u een mail om uw wachtwoord te veranderen.\nAls u dit niet heeft aangevraagd kunt u deze mail negeren.\nhttp://localhost/project1/change-succes.php";
-$headers = "From: wessel@gmail.com";
+$headers = "From: hoekw43@gmail.com";
 
 try {
     $connect = new PDO("mysql:host=$host; dbname=$database", $username, $password);

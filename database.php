@@ -8,7 +8,6 @@ class DB{
     private $charset;
 
     private $db;
-    private $stmt;
     private $resultSet;
 
     public function __construct($host, $user, $pass, $name, $charset){
@@ -29,39 +28,32 @@ class DB{
         }
     }
 
-    public function execute()
-    {
+    public function execute($firstname, $tsv, $lastname, $email, $uname, $psw){
         try {
-            $query1 = "INSERT INTO account (email, password) VALUES (:email, :wachtwoord)";
-            $query2 = "INSERT INTO persoon (voornaam, tussenvoegsel, achternaam, username) VALUES (:voornaam, :tussenvoegsel, :achternaam, :username)";
-            $query3 = "UPDATE persoon SET account_id = (select id from account where email = :email)";
-
+            $query1 = "INSERT INTO account (username, email, password, created, updated, usertype) VALUES (:username, :email, :wachtwoord, CURRENT_TIMESTAMP , CURRENT_TIMESTAMP, 1)";
             $statement1 = $this->db->prepare($query1);
-            $statement2 = $this->db->prepare($query2);
-            $statement3 = $this->db->prepare($query3);
-
             $statement1->execute(
                 array(
-                    'email' => $_POST["email"],
-                    'wachtwoord' => $_POST["wachtwoord"]
+                    'username' => $uname,
+                    'email' => $email,
+                    'wachtwoord' => password_hash($psw, PASSWORD_DEFAULT)
                 )
             );
 
+            $account_id = $this->db->lastInsertId();
+
+            $query2 = "INSERT INTO persoon (voornaam, tussenvoegsel, achternaam, account_id, created, updated) VALUES (:voornaam, :tussenvoegsel, :achternaam, :account_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+            $statement2 = $this->db->prepare($query2);
             $statement2->execute(
                 array(
-                    'voornaam' => $_POST["voornaam"],
-                    'tussenvoegsel' => $_POST["tussenvoegsel"],
-                    'achternaam' => $_POST["achternaam"],
-                    'username' => $_POST["username"]
+
+                    'voornaam' => $firstname,
+                    'tussenvoegsel' => $tsv,
+                    'achternaam' => $lastname,
+                    'account_id' => $account_id
                 )
             );
 
-            $statement3->execute(
-                array(
-                    'email' => $_POST["email"],
-                )
-            );
-            
             header("location:index.php");
 
         } catch (PDOException $error) {
@@ -72,21 +64,37 @@ class DB{
 
     public function login(){
         try {
+            $gethash = "SELECT password FROM account WHERE email = :email";
+            $statement2 = $this->db->prepare($gethash);
+
+            $statement2->execute(
+                array(
+                    'email' => $_POST["email"]
+                )
+            );
+
+            $result = $this->resultSet = $statement2->fetchAll(PDO::FETCH_ASSOC);
+            $hash = $result[0]["password"];
+
             $query1 = "SELECT * FROM account where email = :email AND password = :password";
             $statement1 = $this->db->prepare($query1);
             $statement1->execute(
                 array(
                     'email' => $_POST["email"],
-                    'password' => $_POST["password"]
+                    'password' => $hash
                 )
             );
 
-            $count = $statement1->rowCount();
-
-            if ($count > 0) {
-                $_SESSION["email"] = $_POST["email"];
-                header("location: login_succes.php");
-            } else {
+            $count1 = $statement1->rowCount();
+            
+            if(password_verify($_POST["password"], $hash)) {
+                echo "yes";
+                print_r($count1);
+                if ($count1 > 0) {
+                    $_SESSION["email"] = $_POST["email"];
+                    header("location:login_succes.php");
+                } 
+            }else {
                 echo '<label>Verkeerd wachtwoord of username</label>';
             }
             
