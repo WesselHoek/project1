@@ -9,7 +9,7 @@ $db = new DB('localhost', 'root', '', 'project1', 'utf8');
         if (empty($_POST["email"]) || empty($_POST["password"])) {
             $message = '<label>All fields are required</label>';
         } else {
-            $db->login();
+            $db->login($_POST["email"]);
         }
     }
 

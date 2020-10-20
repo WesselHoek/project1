@@ -20,8 +20,8 @@ CREATE TABLE Account (
     password VARCHAR(255)  NOT NULL,
     created DATE NOT NULL,
     updated DATE NOT NULL,
-    Usertype_id INT,
-    FOREIGN KEY (Usertype_id) REFERENCES Usertype(id),
+    usertype_id INT,
+    FOREIGN KEY (usertype_id) REFERENCES Usertype(id),
     PRIMARY KEY(id)
 );
 --Deze statement creates een table.
